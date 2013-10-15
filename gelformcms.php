@@ -6,7 +6,8 @@
  *
  *
  * 
- * Description:
+ * Description
+ * ============================
  * Why does the world need another CMS? When working with most MVC 
  * frameworks, it's a huge pain to wedge another cms into my existing 
  * views. With this class, you define 3 constants, add one folder and 
@@ -15,7 +16,8 @@
  *
  *
  * 
- * How to set it up:
+ * How to set it up
+ * ============================
  * 1. Create a route in your application that can accept GET and POST
  * requests. 
  *
@@ -26,39 +28,47 @@
  * Or in Zend, add a controller called CmsController and add an 
  * action called indexAction();
  *
+ * 2. Add an assets folder accessible from the web and make it writeable. So 
+ * if your webroot is /public, you might add a folder called /cms (so your
+ * path would look like /public/cms). Then "chmod 777 cms" so it's writeable. 
  *
- * 
- * 2. Add a folder accessible from the web and make it writeable. So 
- * if your webroot is /public, you might add a folder called /cms.
- * Then "chmod 777 cms" so it's writeable. 
- *
- *
- * 
- * 3. In your action, define 3 constants:
- * 
+ * 3. Back in your controller action, define 3 constants:
  * // set this to be any string, or pull it from a config
  * define('GELFORMCMS_PASSWORD', 'password'); 
  *
- * // set this to the path of the folder you created in step 2. 
+ * // set this to the path of the assets folder you created in step 2. 
  * define('GELFORMCMS_PATH', APPLICATION_DIR . 'public_html/cms');
  *
  * // Redundant, I know, but set this to the absolute path to the 
- * // same folder.
+ * // same assets folder.
  * define('GELFORMCMS_URI', '/cms');
- *
- *
  *
  * 4. Include the GelformCMS class:
  * require APPLICATION_DIR . 'model/gelformcms.php';
  *
- *
- *
  * 5. That's it! Visit the route you created, and you shuld be asked
  * to sign in.
  *
+ * 6. When you run it the first time, it will add 3 new folders in 
+ * the folder you created. If you get an error, make sure the folder
+ * is writeable.
  *
+ * 
  *
- *
+ * How to use it
+ * ============================
+ * 1. Sign in using the password you set in the constant 
+ * GELFORMCMS_PASSWORD
+ * 2. A "section" is just an html blob. Click the button to "create
+ * a new section"
+ * 3. Give it a name, and add HTML to your hearts content.
+ * 4. Use the "images" button to upload images, or select images 
+ * you've uploaded, previously. They will be uploaded to a "img"
+ * folder in the assets folder your created. 
+ * 5. Save it. 
+ * 6. Now at the bottom, below the HTML form, you'll see a link for
+ * the "PHP include statement". Copy this, and put it in your view
+ * scripts wherever you want the HTML to render.
  *
  *
  *
@@ -117,14 +127,9 @@ class GelformCMS
 					<link href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/flatly/bootstrap.min.css" rel="stylesheet">
 
 					<style>
-					body {margin-top: 6em;}
+					body {margin: 6em 0;}
 					.navbar-btn {margin-left: .618em;}
-					body .modal 
-					{
-						width: 90%; /* desired relative width */
-						margin-left:auto;
-						margin-right:auto; 
-					}
+					body .modal { width: 90%; margin: 0 auto; }
 					body .modal-dialog {xxheight: 90%; width: auto;}
 					iframe {height: 1px; width: 1px;}
 					.thumbnail {max-height: 10em; overflow: hidden;}
@@ -245,6 +250,10 @@ class GelformCMS
 									return false;
 								}
 							);
+
+							$("#include").on("click", function () {
+								$(this).select();
+							});
 						});
 					</script>
 				</body>
@@ -343,14 +352,26 @@ class GelformCMS
 					</form>
 				</div><!-- well -->
 
-				<form class="form-horizontal" role="form">
-					<div class="form-group">
-						<label for="include" class="col-lg-2 control-label">Include</label>
-						<div class="col-lg-10">
-							<input type="text" class="form-control" id="include" value="&lt;?php include &quot;<?= GELFORMCMS_PATH . '/' . $this->folders['html'] . '/' ?><?= $section->id ?>.html&quot;; ?&gt;">
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#accordion-include">PHP include statement:</a>
+							</h4>
 						</div>
-					</div>
-				</form>
+						<div id="accordion-include" class="panel-collapse collapse">
+							<div class="panel-body">
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<div class="col-lg-12">
+											<input type="text" class="form-control" id="include" value="&lt;?php include &quot;<?= GELFORMCMS_PATH . '/' . $this->folders['html'] . '/' ?><?= $section->id ?>.html&quot;; ?&gt;">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div><!-- panel -->
+				</div><!-- panel-group -->
 
 				<div class="modal fade" id="modal-gallery">
 					<div class="modal-dialog">
