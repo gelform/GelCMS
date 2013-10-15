@@ -1,4 +1,13 @@
 <?php 
+// in case the session is not started, we need it for storing "signed in" - requires  PHP >= 5.4.0
+// for versions < 5.4 use session_id() == ''
+if (session_status() == PHP_SESSION_NONE) 
+{
+	session_start();
+}
+
+
+
 /**
  * Gelform CMS
  * Created by Corey Maass at Gelform Inc
@@ -477,15 +486,6 @@ class GelformCMS
 		if ( isset($_SESSION['GELFORMCMS_admin_signedIn']) )
 		{
 			$this->viewData['signedIn'] = TRUE;
-		}
-
-
-
-		// in case the session is not started, we need it for storing "signed in" - requires  PHP >= 5.4.0
-		// for versions < 5.4 use session_id() == ''
-		if (session_status() == PHP_SESSION_NONE) 
-		{
-			session_start();
 		}
 
 
