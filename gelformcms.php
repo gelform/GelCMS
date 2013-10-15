@@ -581,27 +581,36 @@ class GelformCMS
 
 
 			case 'new':
+				// create a uniq object id
 				$id = uniqid();
 
-				$section = (object) $this->schemas->html;
+				// create our section object
+				$section = (object) $this->schemas->section;
 				$section->id = $id;
 
 
 
+			// continue from 'new'
 			case 'edit':
+				// load our section object if we're editing it
 				if ( !isset($id) )
 				{
 					$id = $_POST['id'];
+
+					// try loading the saved section object
 					if ( !is_file(GELFORMCMS_PATH . '/' . $this->folders['data'] . '/' . $id) ) 
-					{ 
+					{
+						// if it's not found, alert the user
 						$_SESSION['alert'] = 'Whoops, there was a problem loading that section.';
 						header('Location: '.$_SERVER['REQUEST_URI']);
 						exit;
 					}
 
+					// otherwise, load it
 					$section = unserialize(file_get_contents(GELFORMCMS_PATH . '/' . $this->folders['data'] . '/' . $id));
 				}
 
+				// populate the edit template
 				$this->viewData['section'] = $section;
 				$this->render('edit');
 
