@@ -60,6 +60,12 @@ folder in the assets folder your created.
 When you run it the first time, it will add 3 new folders in the folder you created. If you get an error, make sure the folder
 is writeable.
 
+If you don't get an error, but can't seem to sign in, try adding:
+```
+session_start();
+```
+As the first line in your code.
+
 The CMS uses jquery, TinyMCE and Twitter Bootstrap, loaded from CDNs. So you'll need an internet connection for presentation,
 image upload and some behavior. The core of the app should work without it, however. And it looks pretty good on mobile!
 
