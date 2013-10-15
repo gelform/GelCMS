@@ -49,12 +49,8 @@
  * 5. That's it! Visit the route you created, and you shuld be asked
  * to sign in.
  *
- * 6. When you run it the first time, it will add 3 new folders in 
- * the folder you created. If you get an error, make sure the folder
- * is writeable.
  *
  * 
- *
  * How to use it
  * ============================
  * 1. Sign in using the password you set in the constant 
@@ -72,11 +68,26 @@
  *
  *
  *
+ * technical stuff
+ * ============================
+ * When you run it the first time, it will add 3 new folders in 
+ * the folder you created. If you get an error, make sure the folder
+ * is writeable.
+ *
+ * The CMS uses jquery, TinyMCE and Twitter Bootstrap, loaded from
+ * CDNs. So you'll need an internet connection for presentation,
+ * image upload and some behavior. The core of the app should work
+ * without it, however. And it looks pretty good on mobile!
+ * 
  *
  * 
- * 
- * To do:
+ * To do
+ * ============================
  * - option to import CSS into TinyMCE
+ * - limit number of revisions (delete after a certain amount)
+ * - multiple users, user management
+ * - put sections in buckets, collections
+ * 
  */
 
 class GelformCMS
@@ -124,7 +135,7 @@ class GelformCMS
 					<title>CMS</title>
 					<meta name="viewport" content="width=device-width, initial-scale=1.0">
 					<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-					<link href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/flatly/bootstrap.min.css" rel="stylesheet">
+					<!-- <link href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/flatly/bootstrap.min.css" rel="stylesheet"> -->
 
 					<style>
 					body {margin: 6em 0;}
