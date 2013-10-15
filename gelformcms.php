@@ -361,7 +361,7 @@ class GelformCMS
 
 						<div class="form-group" style="padding-top: 1.618em;">
 							<label for="html">Content:</label>
-							<?php $newest = max(array_keys($section->revisions)); ?>
+							<?php $newest = count($section->revisions) > 0 ? max(array_keys($section->revisions)) : 0; ?>
 							<textarea name="html" id="html" rows="10" class="form-control"><?= $section->revisions[$newest]->html ?></textarea>
 						</div>
 						<p>
@@ -585,7 +585,8 @@ class GelformCMS
 				$id = uniqid();
 
 				// create our section object
-				$section = (object) $this->schemas->section;
+				$section = (object) $this->schemas['section'];
+
 				$section->id = $id;
 
 
@@ -630,7 +631,7 @@ class GelformCMS
 				else
 				{
 					// otherwise, create a new section object
-					$section = (object) $this->schemas->section;
+					$section = (object) $this->schemas['section'];
 					$section->id = $_POST['id'];
 				}
 
@@ -642,7 +643,7 @@ class GelformCMS
 				$section->name = $_POST['name'];
 
 				// add a new revision
-				$revision = (object) $this->schemas->revision;
+				$revision = (object) $this->schemas['revision'];
 				$revision->html = $_POST['html'];
 				$revision->date = $now;
 
