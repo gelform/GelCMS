@@ -1,5 +1,5 @@
-Gelform CMS - A single file, single class CMS for MVC frameworks
-======================================================
+# Gelform CMS
+## A single file, single class CMS for MVC frameworks
 
 Created by Corey Maass at Gelform Inc
 
