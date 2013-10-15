@@ -14,26 +14,26 @@ Why does the world need another CMS? When working with most MVC frameworks, it's
 1. Create a route in your application that can accept GET and POST requests. 
 
 For example, in the Slim Framework, I added this route:
-	$app->map('/cms/', array(new Controller_Cms(), 'index'))
-	->via('GET', 'POST');
+    $app->map('/cms/', array(new Controller_Cms(), 'index'))
+    ->via('GET', 'POST');
 
 Or in Zend, add a controller called CmsController and add an action called indexAction();
 
 2. Add an assets folder accessible from the web and make it writeable. So  if your webroot is /public, you might add a folder called /cms (so your path would look like /public/cms). Then "chmod 777 cms" so it's writeable. 
 
 3. Back in your controller action, define 3 constants:
-	// set this to be any string, or pull it from a config
-	define('GELFORMCMS_PASSWORD', 'password'); 
+    // set this to be any string, or pull it from a config
+    define('GELFORMCMS_PASSWORD', 'password'); 
 
-	// set this to the path of the assets folder you created in step 2. 
-	define('GELFORMCMS_PATH', APPLICATION_DIR . 'public_html/cms');
+    // set this to the path of the assets folder you created in step 2. 
+    define('GELFORMCMS_PATH', APPLICATION_DIR . 'public_html/cms');
 
-	// Redundant, I know, but set this to the absolute path to the 
-	// same assets folder.
-	define('GELFORMCMS_URI', '/cms');
+    // Redundant, I know, but set this to the absolute path to the 
+    // same assets folder.
+    define('GELFORMCMS_URI', '/cms');
 
 4. Include the GelformCMS class:
-	require APPLICATION_DIR . 'model/gelformcms.php';
+    require APPLICATION_DIR . 'model/gelformcms.php';
 
 5. That's it! Visit the route you created, and you shuld be asked to sign in.
 
