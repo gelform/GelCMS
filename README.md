@@ -74,6 +74,8 @@ image upload and some behavior. The core of the app should work without it, howe
 * limit number of revisions (delete after a certain amount)
 * multiple users, user management
 * put sections in buckets, collections
+* limit uploads to images
+* image upload resize
 
 ## License
 
