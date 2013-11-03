@@ -1,9 +1,9 @@
-# Gelform CMS
+# Gel CMS
 ## A single file, single class CMS for MVC frameworks
 
 Created by Corey Maass at Gelform Inc
 
-More info and demo at http://gelform.com/gelformcms
+More info and demo at http://gelform.com/gelcms
 
 ## Description
 
@@ -26,27 +26,27 @@ Or in Zend, add a controller called CmsController and add an action called index
 3. Back in your controller action, define 3 constants:
 set this to be any string, or pull it from a config
 ```
-define('GELFORMCMS_PASSWORD', 'password'); 
+define('GELCMS_PASSWORD', 'password'); 
 ```
 set this to the path of the assets folder you created in step 2. 
 ```
-define('GELFORMCMS_PATH', APPLICATION_DIR . 'public_html/cms');
+define('GELCMS_PATH', APPLICATION_DIR . 'public_html/cms');
 ```
 Redundant, I know, but set this to the absolute path to the same assets folder.
 ```
-define('GELFORMCMS_URI', '/cms');
+define('GELCMS_URI', '/cms');
 ```
 
-4. Include the GelformCMS class:
+4. Include the GelCMS class:
 ```
-require APPLICATION_DIR . 'model/gelformcms.php';
+require APPLICATION_DIR . 'model/gelcms.php';
 ```
 
 5. That's it! Visit the route you created, and you shuld be asked to sign in.
 
 ## How to use it
 
-1. Sign in using the password you set in the constant GELFORMCMS_PASSWORD
+1. Sign in using the password you set in the constant GELCMS_PASSWORD
 2. A "section" is just an html blob. Click the button to "create a new section"
 3. Give it a name, and add HTML to your hearts content.
 4. Use the "images" button to upload images, or select images you've uploaded, previously. They will be uploaded to a "img"
@@ -81,4 +81,4 @@ image upload and some behavior. The core of the app should work without it, howe
 
 ## License
 
-The GelformCMS is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+The GelCMS is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

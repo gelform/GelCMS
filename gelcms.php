@@ -34,14 +34,14 @@
  *
  * 3. Back in your controller action, define 3 constants:
  * // set this to be any string, or pull it from a config
- * define('GELFORMCMS_PASSWORD', 'password'); 
+ * define('GELCMS_PASSWORD', 'password'); 
  *
  * // set this to the path of the assets folder you created in step 2. 
- * define('GELFORMCMS_PATH', APPLICATION_DIR . 'public_html/cms');
+ * define('GELCMS_PATH', APPLICATION_DIR . 'public_html/cms');
  *
  * // Redundant, I know, but set this to the absolute path to the 
  * // same assets folder.
- * define('GELFORMCMS_URI', '/cms');
+ * define('GELCMS_URI', '/cms');
  *
  * 4. Include the GelCMS class:
  * require APPLICATION_DIR . 'model/gelcms.php';
@@ -54,7 +54,7 @@
  * How to use it
  * ============================
  * 1. Sign in using the password you set in the constant 
- * GELFORMCMS_PASSWORD
+ * GELCMS_PASSWORD
  * 2. A "section" is just an html blob. Click the button to "create
  * a new section"
  * 3. Give it a name, and add HTML to your hearts content.
@@ -299,7 +299,7 @@ class GelCMS
 							<input type="password" name="password" id="password" class="form-control" placeholder="Password">
 						</div>
 						<p>
-							<button type="submit" class="btn btn-block btn-primary">Sign in</button>
+							<button type="submit" class="btn btn-lg btn-block btn-primary">Sign in</button>
 							<input type="hidden" name="action" value="signin" />
 						</p>
 					</form>
@@ -330,7 +330,7 @@ class GelCMS
 							</select>
 						</div>
 						<p>
-							<button type="submit" class="btn btn-block btn-primary">Edit it!</button>
+							<button type="submit" class="btn btn-block btn-lg btn-primary">Edit it!</button>
 							<input type="hidden" name="action" value="edit" />
 						</p>
 					</form>
@@ -369,7 +369,7 @@ class GelCMS
 							<textarea name="html" id="html" rows="10" class="form-control"><?= $section->revisions[$newest]->html ?></textarea>
 						</div>
 						<p>
-							<button type="submit" class="btn btn-block btn-primary">Save it!</button>
+							<button type="submit" class="btn btn-block btn-lg btn-primary">Save it!</button>
 							<input type="hidden" name="action" value="save" />
 							<input type="hidden" name="id" value="<?= $section->id ?>" />
 						</p>
@@ -388,7 +388,7 @@ class GelCMS
 								<form class="form-horizontal" role="form">
 									<div class="form-group">
 										<div class="col-lg-12">
-											<input type="text" class="form-control" id="include" value="&lt;?php include &quot;<?= GELFORMCMS_PATH . '/' . $this->folders['html'] . '/' ?><?= $section->id ?>.html&quot;; ?&gt;">
+											<input type="text" class="form-control" id="include" value="&lt;?php include &quot;<?= GELCMS_PATH . '/' . $this->folders['html'] . '/' ?><?= $section->id ?>.html&quot;; ?&gt;">
 										</div>
 									</div>
 								</form>
@@ -471,23 +471,23 @@ class GelCMS
 		// make sure our folders exist
 		foreach ($this->folders as $folder) 
 		{
-			if ( !is_dir(GELFORMCMS_PATH . '/' . $folder) )
+			if ( !is_dir(GELCMS_PATH . '/' . $folder) )
 			{
-				if ( !mkdir(GELFORMCMS_PATH . '/' . $folder) ) exit('cms asset folder is not writable');
+				if ( !mkdir(GELCMS_PATH . '/' . $folder) ) exit('cms asset folder is not writable');
 			}
 		}
 
 
 
 		// if not post and not signed in
-		if ( $_SERVER['REQUEST_METHOD'] !== 'POST' && ! (bool) $_SESSION['GELFORMCMS_admin_signedIn'] )
+		if ( $_SERVER['REQUEST_METHOD'] !== 'POST' && ! (bool) $_SESSION['GELCMS_admin_signedIn'] )
 		{
 			$this->render('signin');
 		}
 
 
 
-		if ( isset($_SESSION['GELFORMCMS_admin_signedIn']) )
+		if ( isset($_SESSION['GELCMS_admin_signedIn']) )
 		{
 			$this->viewData['signedIn'] = TRUE;
 		}
@@ -502,18 +502,18 @@ class GelCMS
 				// save it
 				move_uploaded_file(
 					$_FILES["image"]["tmp_name"],
-					GELFORMCMS_PATH . '/' . $this->folders['img'] . '/' . $_FILES["image"]["name"]
+					GELCMS_PATH . '/' . $this->folders['img'] . '/' . $_FILES["image"]["name"]
 				);
 			}
 
-			$dir = new DirectoryIterator(GELFORMCMS_PATH . '/' . $this->folders['img']);
+			$dir = new DirectoryIterator(GELCMS_PATH . '/' . $this->folders['img']);
 			$imgArr = array();
 			foreach ($dir as $fileinfo) 
 			{
 				if (!$fileinfo->isDot()) 
 				{
 					$name = $fileinfo->getFilename();
-					$imgArr[] = GELFORMCMS_URI . '/' . $this->folders['img'] . '/' . $name;
+					$imgArr[] = GELCMS_URI . '/' . $this->folders['img'] . '/' . $name;
 				}
 			}
 
@@ -528,7 +528,7 @@ class GelCMS
 		// if not post, show chooser
 		if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) 
 		{
-			$dir = new DirectoryIterator(GELFORMCMS_PATH . '/' . $this->folders['data']);
+			$dir = new DirectoryIterator(GELCMS_PATH . '/' . $this->folders['data']);
 			$sectionsArr = array();
 			foreach ($dir as $fileinfo) 
 			{
@@ -536,7 +536,7 @@ class GelCMS
 				{
 					$id = $fileinfo->getFilename();
 
-					$section = unserialize(file_get_contents(GELFORMCMS_PATH . '/' . $this->folders['data'] . '/' . $id));
+					$section = unserialize(file_get_contents(GELCMS_PATH . '/' . $this->folders['data'] . '/' . $id));
 
 					$sectionsArr[$id] = $section->name;
 				}
@@ -553,7 +553,7 @@ class GelCMS
 		{
 			// process signing in
 			case 'signin':
-				if ( $_POST['password'] != GELFORMCMS_PASSWORD )
+				if ( $_POST['password'] != GELCMS_PASSWORD )
 				{
 					$this->viewData['alert'] = 'Whoops! That password was incorrect. Give it another try?';
 
@@ -563,7 +563,7 @@ class GelCMS
 
 
 				// if password is correct, set the session variable
-				$_SESSION['GELFORMCMS_admin_signedIn'] = TRUE;
+				$_SESSION['GELCMS_admin_signedIn'] = TRUE;
 
 				// and reload the page
 				$_SESSION['alert'] = 'Welcome back!';
@@ -574,7 +574,7 @@ class GelCMS
 
 
 			case 'signout':
-				unset($_SESSION['GELFORMCMS_admin_signedIn']);
+				unset($_SESSION['GELCMS_admin_signedIn']);
 
 				// and reload the page
 				$_SESSION['alert'] = 'Okay, you\'ve been signed out.';
@@ -603,7 +603,7 @@ class GelCMS
 					$id = $_POST['id'];
 
 					// try loading the saved section object
-					if ( !is_file(GELFORMCMS_PATH . '/' . $this->folders['data'] . '/' . $id) ) 
+					if ( !is_file(GELCMS_PATH . '/' . $this->folders['data'] . '/' . $id) ) 
 					{
 						// if it's not found, alert the user
 						$_SESSION['alert'] = 'Whoops, there was a problem loading that section.';
@@ -612,7 +612,7 @@ class GelCMS
 					}
 
 					// otherwise, load it
-					$section = unserialize(file_get_contents(GELFORMCMS_PATH . '/' . $this->folders['data'] . '/' . $id));
+					$section = unserialize(file_get_contents(GELCMS_PATH . '/' . $this->folders['data'] . '/' . $id));
 				}
 
 				// populate the edit template
@@ -628,9 +628,9 @@ class GelCMS
 				$id = $_POST['id'];
 
 				// try to load existing
-				if ( is_file(GELFORMCMS_PATH . '/' . $this->folders['data'] . '/' . $id) ) 
+				if ( is_file(GELCMS_PATH . '/' . $this->folders['data'] . '/' . $id) ) 
 				{ 
-					$section = unserialize(file_get_contents(GELFORMCMS_PATH . '/' . $this->folders['data'] . '/' . $id));
+					$section = unserialize(file_get_contents(GELCMS_PATH . '/' . $this->folders['data'] . '/' . $id));
 				}
 				else
 				{
@@ -655,10 +655,10 @@ class GelCMS
 				$section->revisions[$now] = $revision;
 
 				// save the data object
-				file_put_contents(GELFORMCMS_PATH . '/' . $this->folders['data'] . '/' . $_POST['id'], serialize($section));
+				file_put_contents(GELCMS_PATH . '/' . $this->folders['data'] . '/' . $_POST['id'], serialize($section));
 
 				// save the html for quick rendering
-				file_put_contents(GELFORMCMS_PATH . '/' . $this->folders['html'] . '/' . $_POST['id'] . '.html', $section->html);
+				file_put_contents(GELCMS_PATH . '/' . $this->folders['html'] . '/' . $_POST['id'] . '.html', $section->html);
 
 				$this->viewData['alert'] = 'Saved!';
 
