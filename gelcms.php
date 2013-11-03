@@ -1,17 +1,8 @@
 <?php 
-// in case the session is not started, we need it for storing "signed in" - requires  PHP >= 5.4.0
-// for versions < 5.4 use session_id() == ''
-if (session_status() == PHP_SESSION_NONE) 
-{
-	session_start();
-}
-
-
-
 /**
- * Gelform CMS
+ * Gel CMS
  * Created by Corey Maass at Gelform Inc
- * http://gelform.com/gelformcms
+ * http://gelform.com/gelcms
  *
  *
  * 
@@ -52,8 +43,8 @@ if (session_status() == PHP_SESSION_NONE)
  * // same assets folder.
  * define('GELFORMCMS_URI', '/cms');
  *
- * 4. Include the GelformCMS class:
- * require APPLICATION_DIR . 'model/gelformcms.php';
+ * 4. Include the GelCMS class:
+ * require APPLICATION_DIR . 'model/gelcms.php';
  *
  * 5. That's it! Visit the route you created, and you shuld be asked
  * to sign in.
@@ -101,7 +92,18 @@ if (session_status() == PHP_SESSION_NONE)
  * 
  */
 
-class GelformCMS
+
+
+// in case the session is not started, we need it for storing "signed in" - requires  PHP >= 5.4.0
+// for versions < 5.4 use session_id() == ''
+if (session_status() == PHP_SESSION_NONE) 
+{
+	session_start();
+}
+
+
+
+class GelCMS
 {
 	// where we store the html templates
 	protected $html = array();
@@ -143,7 +145,7 @@ class GelformCMS
 			<!DOCTYPE html>
 			<html>
 				<head>
-					<title>Gelform CMS - A single file, single class CMS for MVC frameworks</title>
+					<title>Gel CMS - A single file, single class CMS for MVC frameworks</title>
 					<meta name="viewport" content="width=device-width, initial-scale=1.0">
 					<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 					<!-- <link href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/flatly/bootstrap.min.css" rel="stylesheet"> -->
@@ -152,7 +154,7 @@ class GelformCMS
 					body {margin: 6em 0;}
 					.navbar-btn {margin-left: .618em;}
 					body .modal { width: 90%; margin: 0 auto; }
-					body .modal-dialog {xxheight: 90%; width: auto;}
+					body .modal-dialog {width: auto;}
 					iframe {height: 1px; width: 1px;}
 					.thumbnail {max-height: 10em; overflow: hidden;}
 					</style>
@@ -162,7 +164,7 @@ class GelformCMS
 					<div class="navbar navbar-default navbar-fixed-top">
 						<div class="container">
 							<div class="navbar-header">
-								<a href="<?= $_SERVER['REQUEST_URI'] ?>" class="navbar-brand">Gelform CMS</a>
+								<a href="<?= $_SERVER['REQUEST_URI'] ?>" class="navbar-brand">Gel CMS</a>
 								<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 									<span class="icon-bar"></span>
 									<span class="icon-bar"></span>
@@ -297,7 +299,7 @@ class GelformCMS
 							<input type="password" name="password" id="password" class="form-control" placeholder="Password">
 						</div>
 						<p>
-							<button type="submit" class="btn btn-block">Sign in</button>
+							<button type="submit" class="btn btn-block btn-primary">Sign in</button>
 							<input type="hidden" name="action" value="signin" />
 						</p>
 					</form>
@@ -328,7 +330,7 @@ class GelformCMS
 							</select>
 						</div>
 						<p>
-							<button type="submit" class="btn btn-block">Edit it!</button>
+							<button type="submit" class="btn btn-block btn-primary">Edit it!</button>
 							<input type="hidden" name="action" value="edit" />
 						</p>
 					</form>
@@ -336,7 +338,7 @@ class GelformCMS
 					<p class="lead text-center">Or </p>
 <?php endif // sections ?>
 					<form action="" method="post" role="form">
-						<button type="submit" class="btn btn-block">Create a new section</button>
+						<button type="submit" class="btn btn-block btn-primary">Create a new section</button>
 						<input type="hidden" name="action" value="new" />
 					</form>
 				</div><!-- well -->
@@ -367,7 +369,7 @@ class GelformCMS
 							<textarea name="html" id="html" rows="10" class="form-control"><?= $section->revisions[$newest]->html ?></textarea>
 						</div>
 						<p>
-							<button type="submit" class="btn btn-block">Save it!</button>
+							<button type="submit" class="btn btn-block btn-primary">Save it!</button>
 							<input type="hidden" name="action" value="save" />
 							<input type="hidden" name="id" value="<?= $section->id ?>" />
 						</p>
@@ -676,7 +678,7 @@ class GelformCMS
 
 
 
-new GelformCMS();
+new GelCMS();
 
 exit;
 

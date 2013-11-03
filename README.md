@@ -76,6 +76,8 @@ image upload and some behavior. The core of the app should work without it, howe
 * put sections in buckets, collections
 * limit uploads to images
 * image upload resize
+* delete sections
+* undo/restore previous revision
 
 ## License
 
