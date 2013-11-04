@@ -224,6 +224,11 @@ class GelCMS
 
 						function populateGallery()
 						{
+							if ( $("#iframe-images").length === 0 )
+							{
+								return false;
+							};
+
 							var imagesArr = $("#iframe-images")[0].contentWindow.imagesArr;
 
 							var $modalimagesrow = $('#modal-gallery-row').empty();
@@ -351,12 +356,13 @@ class GelCMS
 		{
 			extract($this->viewData);
 		?>
+
 				<h1>Make your changes</h1>
 				<div class="well">
 					<form action="" method="post" role="form">
 						<div class="form-group">
 							<label for="name">Name:</label>
-							<input type="text" name="name" id="name" class="form-control" placeholder="i.e. about us page" value="<?= $section->name ?>">
+							<input type="text" name="name" id="name" class="form-control" placeholder="i.e. about us page" value="<?= $section->name ?>" required>
 						</div>
 
 						<p class="pull-right">
@@ -375,7 +381,8 @@ class GelCMS
 						</p>
 					</form>
 				</div><!-- well -->
-
+				
+				<?php if ( !$section->new ) : ?>
 				<div class="panel-group" id="accordion">
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -396,10 +403,12 @@ class GelCMS
 						</div>
 					</div><!-- panel -->
 				</div><!-- panel-group -->
+				<?php endif // $section->id ?>
 
 				<div class="modal fade" id="modal-gallery">
 					<div class="modal-dialog">
 						<div class="modal-content">
+							<?php if ( defined('GELCMS_URI') ) : ?>
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 								<form action="?action=upload" method="post" target="iframe-images" enctype="multipart/form-data" class="form-inline well text-center" role="form">
@@ -416,6 +425,14 @@ class GelCMS
 								</div><!-- row -->
 							</div><!-- modal-body -->
 							<iframe name="iframe-images" id="iframe-images" src="<?= substr( $_SERVER['REQUEST_URI'], 0, strrpos( $_SERVER['REQUEST_URI'], "?")) ?>?action=upload"></iframe>
+							<?php else : // GELCMS_URI ?>
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<p class="lead">
+									To use the image gallery, please define the constant GELCMS_URI.
+								</p>
+							</div><!-- modal-header -->
+							<?php endif // GELCMS_URI ?>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal-dialog -->
 				</div><!-- /.modal -->
@@ -463,6 +480,9 @@ class GelCMS
 
 	public function __construct()
 	{
+		if ( !defined('GELCMS_PASSWORD') ) exit ('Please set a password in the constant GELCMS_PASSWORD');
+
+
 		// setup html templates
 		$this->_htmlSetup();
 
@@ -593,6 +613,8 @@ class GelCMS
 
 				$section->id = $id;
 
+				$section->new = TRUE;
+
 
 
 			// continue from 'new'
@@ -658,7 +680,7 @@ class GelCMS
 				file_put_contents(GELCMS_PATH . '/' . $this->folders['data'] . '/' . $_POST['id'], serialize($section));
 
 				// save the html for quick rendering
-				file_put_contents(GELCMS_PATH . '/' . $this->folders['html'] . '/' . $_POST['id'] . '.html', $section->html);
+				file_put_contents(GELCMS_PATH . '/' . $this->folders['html'] . '/' . $_POST['id'] . '.html', $revision->html);
 
 				$this->viewData['alert'] = 'Saved!';
 
@@ -666,9 +688,7 @@ class GelCMS
 				$this->render('edit');
 
 				break;
-		}
-
-
+		} // switch
 
 	} // init
 
