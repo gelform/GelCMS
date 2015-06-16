@@ -517,7 +517,9 @@ class GelCMS
 		// handle file uploads
 		if ( $_GET['action'] == 'upload' )
 		{
-			if( !empty($_FILES) && $_FILES["image"]["error"] == 0 ) 
+			$allowed_types = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif');
+
+			if( !empty($_FILES) && $_FILES["image"]["error"] == 0 && in_array($_FILES["image"]['type'], $allowed_types) )
 			{
 				// save it
 				move_uploaded_file(
